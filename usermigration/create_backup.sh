@@ -20,7 +20,7 @@ getusers()
   for i in `ls -al  $HOM_DIR |awk '{print $3}' | sed '/redux\|root/d'`
   do 
      #echo $i
-     if grep -q "$i" /etc/passwd 
+     if grep -q "$i:" /etc/passwd 
      then 
         echo "Need to sync User : $i " 
         echo "$i" >> $BK_DIR/userlist
