@@ -13,5 +13,5 @@ for i in `cat $work_dir/t |awk '{print $7}'  |cut -d "/" -f2 |cut -d: -f1`; do e
 echo "--------------------------------"
 
 echo "Verifying the mount points..................."
-df -h |awk '{print $6}' > $work_dir/post_m
-cmp --silent  $work_dir/pre_m $work_dir/post_m  && echo "Successfully mounted \n  Current mount details: `cat $work_dir/post_m`"  || echo "ERROR: There is a CONFLICT in mount points!!!!\n ----- \n Current mount details: `cat $work_dir/post_m` \n---------------\n  Required : `cat  $work_dir/post_m`"
+df -h |awk '{print $6}' > $work_dir/post_mnt
+cmp --silent  $work_dir/pre_mnt $work_dir/post_mnt  && echo "Successfully mounted \n  Current mount details: `cat $work_dir/post_mnt`"  || echo "ERROR: There is a CONFLICT in mount points!!!!\n ----- \n Current mount details: `cat $work_dir/post_mnt` \n---------------\n  Required : `cat  $work_dir/pre_mnt`"
