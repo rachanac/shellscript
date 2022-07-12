@@ -9,7 +9,7 @@ sudo apt-get update
 echo "-------------------------"
 
 echo "Checking the service Status..............."
-for i in `cat $work_dir/t |awk '{print $7}'  |cut -d "/" -f2 |cut -d: -f1`; do echo "Service $i `systemctl is-active $i`"; done
+for i in `cat $work_dir/services_lt |awk '{print $7}'  |cut -d "/" -f2 |cut -d: -f1`; do echo "Service $i `systemctl is-active $i`"; done
 echo "--------------------------------"
 
 echo "Verifying the mount points..................."
