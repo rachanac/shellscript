@@ -42,11 +42,13 @@ createbkp()
   grep "$i" /etc/group |grep -v wheel >> $BK_DIR/addgroup
   grep "$i" /etc/shadow |grep -v wheel >> $BK_DIR/addshadow
   grep "$i" /etc/gshadow |grep -v wheel >> $BK_DIR/addgshadow
-  grep wheel /etc/group  > $BK_DIR/addgroup_wheel
-  grep wheel /etc/gshadow  > $BK_DIR/addgshadow_wheel
 
   cp -rpf $HOM_DIR/$i $BK_DIR/home/.
  done
+ 
+  grep wheel /etc/group  > $BK_DIR/addgroup_wheel
+  grep wheel /etc/gshadow  > $BK_DIR/addgshadow_wheel
+  
  echo "____" 
  echo "Backup generation completed"
  echo "____________________________________________"
