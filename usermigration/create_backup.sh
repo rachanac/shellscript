@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#read -p "Enter Home Dir : " -r  HOM_DIR
 read -p "Enter Backup Dir : " -r  BK_DIR
 HOM_DIR='/home'
 #BK_DIR='/meltwater/backup'
@@ -12,15 +11,26 @@ HOM_DIR='/home'
   fi
 
 mkdir $BK_DIR
+
 #####################Get users list ##########################
 getusers()
 {
   touch $BK_DIR/userlist
 
-  for i in `ls -al  $HOM_DIR |awk '{print $3}' | sed '/redux\|root/d'`
+#Check if home dit is a link, then go to actual dir
+  if [[ -L "$HOM_DIR" ]]
+  then
+    echo "Home is link"
+    ls -al $HOM_DIR
+    HOM_DIR=`readlink $HOM_DIR`
+  fi
+
+  ls -al $HOM_DIR |awk '{print $3}' | sed '/redux\|root/d' > $BK_DIR/userlist_tmp
+  
+  for i in `cat $BK_DIR/userlist_tmp`
   do 
      #echo $i
-     if grep -q "$i:" /etc/passwd 
+     if grep -q "^$i:" /etc/passwd 
      then 
         echo "Need to sync User : $i " 
         echo "$i" >> $BK_DIR/userlist
