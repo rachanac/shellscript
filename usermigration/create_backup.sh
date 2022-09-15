@@ -68,4 +68,6 @@ createbkp()
 getusers
 createbkp
 echo "Use command 'rsync -avz $BK_DIR  user@destn_server:/PATH' to copy backup to destination box"
+
+echo "Once you completed copying the backup directory, delete it. 'rm -rf $BK_DIR'"
 echo "____________________________________________________"
