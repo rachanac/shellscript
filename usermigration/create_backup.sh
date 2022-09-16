@@ -3,7 +3,6 @@
 #read -p "Enter Home Dir : " -r  HOM_DIR
 read -p "Enter Backup Dir : " -r  BK_DIR
 HOM_DIR='/home'
-#BK_DIR='/meltwater/backup'
 
   if [ -d $BK_DIR ]
   then
