@@ -1,13 +1,16 @@
 #!/bin/bash
 
+#read -p "Enter Home Dir : " -r  HOM_DIR
 read -p "Enter Backup Dir : " -r  BK_DIR
 HOM_DIR='/home'
 #BK_DIR='/meltwater/backup'
 
   if [ -d $BK_DIR ]
   then
+     echo "Backup dir $BK_DIR exists"
      rm -r $BK_DIR
      echo "Deleted bkp dir"
+     echo "_______________________________________"
   fi
 
 mkdir $BK_DIR
@@ -17,16 +20,14 @@ getusers()
 {
   touch $BK_DIR/userlist
 
-#Check if home dit is a link, then go to actual dir
   if [[ -L "$HOM_DIR" ]]
   then
-    echo "Home is link"
+    echo "Home is a link, So add readlink"
     ls -al $HOM_DIR
     HOM_DIR=`readlink $HOM_DIR`
   fi
 
   ls -al $HOM_DIR |awk '{print $3}' | sed '/redux\|root/d' > $BK_DIR/userlist_tmp
-  
   for i in `cat $BK_DIR/userlist_tmp`
   do 
      #echo $i
@@ -55,10 +56,13 @@ createbkp()
 
   cp -rpf $HOM_DIR/$i $BK_DIR/home/.
  done
- 
-  grep wheel /etc/group  > $BK_DIR/addgroup_wheel
-  grep wheel /etc/gshadow  > $BK_DIR/addgshadow_wheel
   
+  echo "Copying sudoers access"
+  grep wheel /etc/group  > $BK_DIR/addgroup_wheel
+  grep wheel /etc/gshadow  > $BK_DIR/addgshadow_wheel 
+  mkdir $BK_DIR/sudoersd
+  cp /etc/sudoers.d/* $BK_DIR/sudoersd/.
+ 
  echo "____" 
  echo "Backup generation completed"
  echo "____________________________________________"
@@ -68,6 +72,4 @@ createbkp()
 getusers
 createbkp
 echo "Use command 'rsync -avz $BK_DIR  user@destn_server:/PATH' to copy backup to destination box"
-
-echo "Once you completed copying the backup directory, delete it. 'rm -rf $BK_DIR'"
-echo "____________________________________________________"
+echo "____________________________________________________
