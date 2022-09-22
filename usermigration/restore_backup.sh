@@ -41,6 +41,7 @@ restorebkp()
   do
     echo "Copying homedir of user : $i"
     cp -rpf $BK_DIR/home/$i $HOM_DIR/.
+    chown -R $i:$i $HOM_DIR/$i
   done
 }
 
